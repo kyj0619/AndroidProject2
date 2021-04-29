@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.month_view:
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.main_container, new MonthViewFragment());
+                fragmentTransaction.replace(R.id.main_container, new MonthViewFragment());
                 fragmentTransaction.commit();
                 Toast.makeText(getApplicationContext(), "month_view", Toast.LENGTH_SHORT).show();
                 return true;
