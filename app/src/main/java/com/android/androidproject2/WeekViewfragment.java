@@ -3,10 +3,14 @@ package com.android.androidproject2;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -55,10 +59,24 @@ public class WeekViewfragment extends Fragment {
         }
     }
 
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        View rootView = inflater.inflate(R.layout.fragment_week_view, container, false);
+        ViewPager2 vpPager = rootView.findViewById(R.id.week_vpPager);
+        FragmentStateAdapter adapter = new WeekCalendarAdapter(this);
+        vpPager.setAdapter(adapter);
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_week_view, container, false);
+
+        //요일 표시 그리드뷰
+        GridView daygrid = rootView.findViewById(R.id.dayofweekgridview);
+        daygrid.setAdapter(new ArrayAdapter<String>(
+                getActivity(),  // 현재 프래그먼트 연결된 액티비티
+                android.R.layout.simple_list_item_activated_1,
+                WeekCalendarAdapter.day));
+
+        return rootView;
     }
 }

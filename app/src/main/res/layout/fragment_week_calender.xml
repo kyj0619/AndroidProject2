@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".WeekViewfragment">
+    android:orientation="vertical"
+    tools:context=".WeekCalenderFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <GridView
-        android:id="@+id/dayofweekgridview"
+        android:id="@+id/numofweek"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:columnWidth="50dp"
-        android:background="@color/green"
         android:numColumns="7"
         android:verticalSpacing="1dp"
         android:horizontalSpacing="1dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
-        />
+        android:listSelector="@color/teal_200"/>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/week_vpPager"
-        android:layout_below="@+id/dayofweekgridview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-
-</RelativeLayout>
+</LinearLayout>
