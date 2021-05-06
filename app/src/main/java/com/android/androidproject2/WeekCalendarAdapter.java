@@ -20,8 +20,8 @@ public class WeekCalendarAdapter extends FragmentStateAdapter {
     @Override
     public Fragment createFragment(int position) {
         int day = cal.get(Calendar.DATE);
-        int pos = position;
-        return WeekCalenderFragment.newInstance(pos, day);
+        int weekofmonth = cal.get(Calendar.WEEK_OF_MONTH) + position;
+        return WeekCalenderFragment.newInstance(weekofmonth, day);
     }
 
     @Override

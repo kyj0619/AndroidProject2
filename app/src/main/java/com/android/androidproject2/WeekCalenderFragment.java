@@ -2,6 +2,7 @@ package com.android.androidproject2;
 
 import android.R.color;
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,7 +13,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,6 +35,7 @@ public class WeekCalenderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private int mParam1;
     private int mParam2;
+    Calendar cal = Calendar.getInstance();
     public WeekCalenderFragment() {
         // Required empty public constructor
     }
@@ -60,20 +65,21 @@ public class WeekCalenderFragment extends Fragment {
             mParam1 = getArguments().getInt(ARG_PARAM1);
             mParam2 = getArguments().getInt(ARG_PARAM2);
         }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Calendar cal = Calendar.getInstance();
         final ArrayList<String> list = new ArrayList<>();
+        final ArrayList<String> Agrid = new ArrayList<>();
         //날짜 초기화
-        cal.set(Calendar.WEEK_OF_MONTH,mParam1+1);
         cal.set(Calendar.DATE,mParam2);
+        cal.set(Calendar.WEEK_OF_MONTH,mParam1);
         cal.set(Calendar.DAY_OF_WEEK,1);
         //주간 날짜 표시
-        int count = 0;
+        int count = 0,max=0;
         int day = cal.get(Calendar.DATE);
         int maxday = cal.getActualMaximum(Calendar.DATE);
         while(count !=7){
@@ -87,20 +93,29 @@ public class WeekCalenderFragment extends Fragment {
             }
             count++;
         }
-
-
+        while (max!=168){
+            Agrid.add("");
+            max++;
+        }
 
         View rootView = inflater.inflate(R.layout.fragment_week_calender, container, false);
-
         GridView numgrid = rootView.findViewById(R.id.numofweek);
+        GridView Tgrid = rootView.findViewById(R.id.grid);
         numgrid.setAdapter(new ArrayAdapter<String>(
                 getActivity(),  // 현재 프래그먼트 연결된 액티비티
                 android.R.layout.simple_list_item_activated_1,
                 list));
-        numgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+        Tgrid.setAdapter(new ArrayAdapter<String>(
+                getActivity(),  // 현재 프래그먼트 연결된 액티비티
+                android.R.layout.simple_list_item_activated_1,
+                Agrid));
+
+        Tgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                numgrid.setBackgroundColor(position);
+                Toast.makeText(getActivity(), "position="+ position,
+                        Toast.LENGTH_SHORT).show();
             }
         });
         return rootView;
