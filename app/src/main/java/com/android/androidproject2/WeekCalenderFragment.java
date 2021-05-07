@@ -2,10 +2,12 @@ package com.android.androidproject2;
 
 import android.R.color;
 import android.app.Activity;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +37,7 @@ public class WeekCalenderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private int mParam1;
     private int mParam2;
+    private int num = -1;
     Calendar cal = Calendar.getInstance();
     public WeekCalenderFragment() {
         // Required empty public constructor
@@ -73,7 +76,7 @@ public class WeekCalenderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final ArrayList<String> list = new ArrayList<>();
-        final ArrayList<String> Agrid = new ArrayList<>();
+        final ArrayList<Grid> Agrid = new ArrayList<Grid>();
         //날짜 초기화
         cal.set(Calendar.DATE,mParam2);
         cal.set(Calendar.WEEK_OF_MONTH,mParam1);
@@ -94,30 +97,74 @@ public class WeekCalenderFragment extends Fragment {
             count++;
         }
         while (max!=168){
-            Agrid.add("");
+            Agrid.add(new Grid(""));
             max++;
         }
 
         View rootView = inflater.inflate(R.layout.fragment_week_calender, container, false);
         GridView numgrid = rootView.findViewById(R.id.numofweek);
         GridView Tgrid = rootView.findViewById(R.id.grid);
+
         numgrid.setAdapter(new ArrayAdapter<String>(
                 getActivity(),  // 현재 프래그먼트 연결된 액티비티
                 android.R.layout.simple_list_item_activated_1,
                 list));
 
-        Tgrid.setAdapter(new ArrayAdapter<String>(
-                getActivity(),  // 현재 프래그먼트 연결된 액티비티
-                android.R.layout.simple_list_item_activated_1,
+        Tgrid.setAdapter(new GridAdapter(
+                rootView.getContext(),  // 현재 프래그먼트 연결된 액티비티
                 Agrid));
+
+        numgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                num = position;
+            }
+        });
 
         Tgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Toast.makeText(getActivity(), "position="+ position,
-                        Toast.LENGTH_SHORT).show();
+                int dayofweek = position % 7;
+                switch (num) {
+                    case 0:
+                        if(dayofweek == 0)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 1:
+                        if(dayofweek == 1)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 2:
+                        if(dayofweek == 2)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 3:
+                        if(dayofweek == 3)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 4:
+                        if(dayofweek == 4)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 5:
+                        if(dayofweek == 5)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    case 6:
+                        if(dayofweek == 6)
+                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+                }
             }
         });
+
+        FragmentActivity activity = getActivity();
+        if (activity != null) {
+            ((MainActivity) activity).setActionBarTitle(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월");
+        }
+
         return rootView;
     }
 }
