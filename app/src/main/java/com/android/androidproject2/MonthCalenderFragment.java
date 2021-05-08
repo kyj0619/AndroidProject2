@@ -2,9 +2,14 @@ package com.android.androidproject2;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PaintDrawable;
+import android.media.Image;
 import android.os.Bundle;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
@@ -14,6 +19,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -105,10 +111,13 @@ public class MonthCalenderFragment extends Fragment {
             }
         });
 
-//        FragmentActivity activity = getActivity();
-//        if (activity != null) {
-//            ((MainActivity) activity).setActionBarTitle(String.valueOf(calendar.get(Calendar.YEAR))+"년"+String.valueOf(calendar.get(Calendar.MONTH)+1)+"월");
-//        }
+        MainActivity activity = (MainActivity)getActivity();
+        int year =calendar.get(YEAR);
+        int month = calendar.get(Calendar.MONTH)+1;
+        String now = Integer.toString(year)+"년"+Integer.toString(month)+"월";
+        activity.setActionBarTitle(now);
+
+        daygrid.setBackgroundResource(R.drawable.gridline);
 
         return rootView;
     }
