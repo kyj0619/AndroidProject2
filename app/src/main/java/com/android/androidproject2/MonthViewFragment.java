@@ -10,6 +10,8 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.GridView;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -65,6 +67,10 @@ public class MonthViewFragment extends Fragment {
         ViewPager2 vpPager = rootView.findViewById(R.id.vpPager);
         FragmentStateAdapter adapter = new MonthCalendarAdapter(this);
         vpPager.setAdapter(adapter);
+
+        String[] items = {"일", "월", "화", "수", "목", "금", "토"};
+        GridView gridView = rootView.findViewById(R.id.day_of_the_week);
+        gridView.setAdapter(new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, items));
         // Inflate the layout for this fragment
         return rootView;
     }

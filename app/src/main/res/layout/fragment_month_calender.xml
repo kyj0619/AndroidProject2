@@ -7,15 +7,20 @@
     tools:context=".MonthCalenderFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="일 월 화 수 목 금 토" />
 
-    <TextView
-        android:id="@+id/month_calendar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="asdfsdf" />
+    <GridView
+        android:id="@+id/day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnWidth="10dp"
+        android:verticalSpacing="5dp"
+        android:horizontalSpacing="5dp"
+
+        android:stretchMode="columnWidth"
+        android:gravity="center"
+        android:numColumns="7"
+        android:layout_marginTop="50dp"
+        android:listSelector="#00FFFF"/>
+
 
 </LinearLayout>
