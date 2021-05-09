@@ -1,15 +1,11 @@
 package com.android.androidproject2;
 
-import android.R.color;
-import android.app.Activity;
-import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +14,6 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -118,7 +112,7 @@ public class WeekCalenderFragment extends Fragment {
 
         numgrid.setAdapter(new ArrayAdapter<String>(
                 getActivity(),  // 현재 프래그먼트 연결된 액티비티
-                R.layout.grid,
+                R.layout.numday,
                 list));
 
         Bgrid.setAdapter(new ArrayAdapter<String>(
@@ -135,26 +129,23 @@ public class WeekCalenderFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 if (num!=position) {
-                    numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.linegrid);
+                    numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.numdaytext);
                     numtext.setBackgroundColor(Color.WHITE);
                 }
-                numtext = (TextView) numgrid.getChildAt(position).findViewById(R.id.linegrid);
+                numtext = (TextView) numgrid.getChildAt(position).findViewById(R.id.numdaytext);
                 numtext.setBackgroundColor(Color.CYAN);
                 num = position;
             }
         });
-
-
-
         Bgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int dayofweek = position % 7;
                 if (num!=dayofweek) {
-                    numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.linegrid);
+                    numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.numdaytext);
                     numtext.setBackgroundColor(Color.WHITE);
                 }
-                    numtext = (TextView) numgrid.getChildAt(dayofweek).findViewById(R.id.linegrid);
+                    numtext = (TextView) numgrid.getChildAt(dayofweek).findViewById(R.id.numdaytext);
                     numtext.setBackgroundColor(Color.CYAN);
                     num = dayofweek;
                     Toast.makeText(getActivity(), "position=" + dayofweek, Toast.LENGTH_SHORT).show();
