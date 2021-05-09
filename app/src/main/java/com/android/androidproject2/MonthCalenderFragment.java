@@ -117,7 +117,9 @@ public class MonthCalenderFragment extends Fragment {
         String now = Integer.toString(year)+"년"+Integer.toString(month)+"월";
         activity.setActionBarTitle(now);
 
-        daygrid.setBackgroundResource(R.drawable.gridline);
+
+
+        daygrid.setBackgroundResource(R.drawable.grid_line);
 
         return rootView;
     }
