@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/linegrid"
+        android:id="@+id/blanktext"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:background="@color/white"
-        android:gravity="center_horizontal|top"
-        android:padding="12dp"
         android:textColor="@color/black"
+        android:minHeight="30dp"
         android:textSize="7pt">
-
 </TextView>

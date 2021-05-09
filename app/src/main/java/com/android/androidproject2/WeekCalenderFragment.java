@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +38,10 @@ public class WeekCalenderFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private int mParam1;
     private int mParam2;
-    private int num = -1;
+    private int num =0;
+
     Calendar cal = Calendar.getInstance();
+    TextView numtext;
     public WeekCalenderFragment() {
         // Required empty public constructor
     }
@@ -76,13 +79,14 @@ public class WeekCalenderFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final ArrayList<String> list = new ArrayList<>();
-        final ArrayList<Grid> Agrid = new ArrayList<Grid>();
+        final ArrayList<String> Agrid = new ArrayList<>();
+        final ArrayList<String> gridtime = new ArrayList<>();
         //날짜 초기화
         cal.set(Calendar.DATE,mParam2);
         cal.set(Calendar.WEEK_OF_MONTH,mParam1);
         cal.set(Calendar.DAY_OF_WEEK,1);
         //주간 날짜 표시
-        int count = 0,max=0;
+        int count = 0,max=0,line=0;
         int day = cal.get(Calendar.DATE);
         int maxday = cal.getActualMaximum(Calendar.DATE);
         while(count !=7){
@@ -97,66 +101,63 @@ public class WeekCalenderFragment extends Fragment {
             count++;
         }
         while (max!=168){
-            Agrid.add(new Grid(""));
+            Agrid.add("");
             max++;
+        }
+        while (line!=24){
+            gridtime.add(String.valueOf(line));
+            line++;
         }
 
         View rootView = inflater.inflate(R.layout.fragment_week_calender, container, false);
         GridView numgrid = rootView.findViewById(R.id.numofweek);
-        GridView Tgrid = rootView.findViewById(R.id.grid);
+        ExpandableHeightGridView Bgrid = (ExpandableHeightGridView)rootView.findViewById(R.id.blanck_grid);
+        ExpandableHeightGridView Timegrid = (ExpandableHeightGridView)rootView.findViewById(R.id.timegrid);
+        Bgrid.setExpanded(true);
+        Timegrid.setExpanded(true);
 
         numgrid.setAdapter(new ArrayAdapter<String>(
                 getActivity(),  // 현재 프래그먼트 연결된 액티비티
-                android.R.layout.simple_list_item_activated_1,
+                R.layout.grid,
                 list));
 
-        Tgrid.setAdapter(new GridAdapter(
-                rootView.getContext(),  // 현재 프래그먼트 연결된 액티비티
+        Bgrid.setAdapter(new ArrayAdapter<String>(
+                getActivity(),  // 현재 프래그먼트 연결된 액티비티
+                R.layout.blankgrid,
                 Agrid));
+
+        Timegrid.setAdapter(new ArrayAdapter<String>(
+                getActivity(),  // 현재 프래그먼트 연결된 액티비티
+                R.layout.timegrid,
+                gridtime));
 
         numgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                if (num!=position) {
+                    numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.linegrid);
+                    numtext.setBackgroundColor(Color.WHITE);
+                }
+                numtext = (TextView) numgrid.getChildAt(position).findViewById(R.id.linegrid);
+                numtext.setBackgroundColor(Color.CYAN);
                 num = position;
             }
         });
 
-        Tgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+
+        Bgrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int dayofweek = position % 7;
-                switch (num) {
-                    case 0:
-                        if(dayofweek == 0)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        if(dayofweek == 1)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2:
-                        if(dayofweek == 2)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 3:
-                        if(dayofweek == 3)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 4:
-                        if(dayofweek == 4)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 5:
-                        if(dayofweek == 5)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    case 6:
-                        if(dayofweek == 6)
-                            Toast.makeText(getActivity(), "position=" + position, Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
+                if (num!=dayofweek) {
+                    numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.linegrid);
+                    numtext.setBackgroundColor(Color.WHITE);
                 }
+                    numtext = (TextView) numgrid.getChildAt(dayofweek).findViewById(R.id.linegrid);
+                    numtext.setBackgroundColor(Color.CYAN);
+                    num = dayofweek;
+                    Toast.makeText(getActivity(), "position=" + dayofweek, Toast.LENGTH_SHORT).show();
             }
         });
 
