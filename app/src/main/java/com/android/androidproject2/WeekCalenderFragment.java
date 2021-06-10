@@ -1,5 +1,6 @@
 package com.android.androidproject2;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -36,6 +37,8 @@ public class WeekCalenderFragment extends Fragment {
 
     Calendar cal = Calendar.getInstance();
     TextView numtext;
+    int stime;
+    String selday;
     public WeekCalenderFragment() {
         // Required empty public constructor
     }
@@ -141,22 +144,31 @@ public class WeekCalenderFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 int dayofweek = position % 7;
+                stime = position / 7;
                 if (num!=dayofweek) {
                     numtext = (TextView) numgrid.getChildAt(num).findViewById(R.id.numdaytext);
                     numtext.setBackgroundColor(Color.WHITE);
+
                 }
-                    numtext = (TextView) numgrid.getChildAt(dayofweek).findViewById(R.id.numdaytext);
-                    numtext.setBackgroundColor(Color.CYAN);
-                    num = dayofweek;
-                    Toast.makeText(getActivity(), "position=" + dayofweek, Toast.LENGTH_SHORT).show();
+                numtext = (TextView) numgrid.getChildAt(dayofweek).findViewById(R.id.numdaytext);
+                numtext.setBackgroundColor(Color.CYAN);
+                selday = (String) numtext.getText();
+                num = dayofweek;
+                Toast.makeText(getActivity(), "position=" + dayofweek, Toast.LENGTH_SHORT).show();
+
+                FragmentActivity activity1 = getActivity();
+                if (activity1 != null) {
+                    ((MainActivity) activity1).setActionBarTitle(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월");
+                }
+                ((MainActivity) activity1).onTitleSelected(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월"+selday+"일"+String.valueOf(stime)+"시");
             }
+
         });
 
         FragmentActivity activity = getActivity();
         if (activity != null) {
             ((MainActivity) activity).setActionBarTitle(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월");
         }
-
         return rootView;
     }
 }
