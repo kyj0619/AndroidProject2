@@ -114,6 +114,7 @@ public class SecondActivity extends AppCompatActivity implements OnMapReadyCallb
                     public void onClick(DialogInterface dialogInterface, int i) {
                         deleteRecord();
                         viewAllToTextView();
+                        finish();
                     }
                 });
                 builder.show();
