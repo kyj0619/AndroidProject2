@@ -223,10 +223,10 @@ public class SecondActivity extends AppCompatActivity implements OnMapReadyCallb
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             ehour = timePicker2.getHour();
-            eminute = timePicker.getMinute();
+            eminute = timePicker2.getMinute();
         } else {
             ehour = timePicker2.getCurrentHour();
-            eminute = timePicker.getCurrentMinute();
+            eminute = timePicker2.getCurrentMinute();
         }
         stime = String.valueOf(hour)+"시"+String.valueOf(minute)+"분";
         etime = String.valueOf(ehour)+"시"+String.valueOf(eminute)+"분";
