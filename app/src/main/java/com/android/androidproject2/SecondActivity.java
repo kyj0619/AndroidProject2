@@ -1,9 +1,11 @@
 package com.android.androidproject2;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
@@ -99,8 +101,22 @@ public class SecondActivity extends AppCompatActivity implements OnMapReadyCallb
         delbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                deleteRecord();
-                viewAllToTextView();
+                AlertDialog.Builder builder = new AlertDialog.Builder(SecondActivity.this);
+                builder.setTitle("정말로 삭제하시겠습니까?").setMessage("삭제하려면 버튼을 누르세요");
+
+                builder.setPositiveButton("아니요", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                builder.setNegativeButton("예", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        deleteRecord();
+                        viewAllToTextView();
+                    }
+                });
+                builder.show();
             }
         });
 
