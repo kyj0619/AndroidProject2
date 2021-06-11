@@ -106,7 +106,9 @@ public class MonthCalenderFragment extends Fragment {
                 String today = day.get(position);
                 int year =calendar.get(YEAR);
                 int month = calendar.get(Calendar.MONTH)+1;
-                String now = Integer.toString(year)+"."+Integer.toString(month)+"."+(today);
+                String now = Integer.toString(year)+"년"+Integer.toString(month)+"월"+(today)+"일";
+                MainActivity activity1 = (MainActivity)getActivity();
+                activity1.onTitleSelected(now);
                 Toast.makeText(getContext(), now, Toast.LENGTH_SHORT).show();
             }
         });

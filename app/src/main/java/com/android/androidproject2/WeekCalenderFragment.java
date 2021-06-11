@@ -158,9 +158,9 @@ public class WeekCalenderFragment extends Fragment {
 
                 FragmentActivity activity1 = getActivity();
                 if (activity1 != null) {
-                    ((MainActivity) activity1).setActionBarTitle(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월");
+                    ((MainActivity) activity1).onTitleSelected(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월"+selday+"일"+String.valueOf(stime)+"시");
+                    ((MainActivity) activity1).onTime(stime);
                 }
-                ((MainActivity) activity1).onTitleSelected(String.valueOf(cal.get(Calendar.YEAR))+"년"+String.valueOf(cal.get(Calendar.MONTH)+1)+"월"+selday+"일"+String.valueOf(stime)+"시");
             }
 
         });

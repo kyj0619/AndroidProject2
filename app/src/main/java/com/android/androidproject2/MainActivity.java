@@ -19,6 +19,7 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity {
     String title;
+    int time;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SecondActivity.class);
                 intent.putExtra("title", title);
+                intent.putExtra("time", time);
                 startActivity(intent);
             }
         });
@@ -80,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void onTitleSelected(String text) {
         title = text;
+    }
+
+    public void onTime(int text) {
+        time = text;
     }
 
 }

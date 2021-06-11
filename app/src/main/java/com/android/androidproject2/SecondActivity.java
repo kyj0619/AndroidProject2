@@ -6,6 +6,7 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -35,18 +37,40 @@ import java.util.Locale;
 
 public class SecondActivity extends AppCompatActivity implements OnMapReadyCallback {
     String title2;
+    int etime;
     private FusedLocationProviderClient mFusedLocationClient;
     GoogleMap mGoogleMap = null;
+    private DBHelper mDbHelper;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Intent intent = getIntent();
         title2 = intent.getStringExtra("title");
-
+        etime = intent.getIntExtra("time",-1);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
-
+        mDbHelper = new DBHelper(this);
         EditText edittitle = findViewById(R.id.today);
         edittitle.setText(title2);
+
+
+        TimePicker settimePicker = (TimePicker) findViewById(R.id.timepicker1);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            settimePicker.setHour(etime);
+            settimePicker.setMinute(0);
+        } else {
+            settimePicker.setCurrentHour(etime);
+            settimePicker.setCurrentMinute(0);
+        }
+
+        TimePicker settimePicker2 = (TimePicker) findViewById(R.id.timepicker2);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            settimePicker2.setHour(etime);
+            settimePicker2.setMinute(10);
+        } else {
+            settimePicker2.setCurrentHour(etime);
+            settimePicker2.setCurrentMinute(10);
+        }
+
 
         Button endbtn = findViewById(R.id.endbtn);
         endbtn.setOnClickListener(new View.OnClickListener() {
@@ -60,6 +84,23 @@ public class SecondActivity extends AppCompatActivity implements OnMapReadyCallb
             @Override
             public void onClick(View view) {
                 getAddress();
+            }
+        });
+        Button savebtn = findViewById(R.id.save);
+        savebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                insertRecord();
+                viewAllToTextView();
+            }
+        });
+
+        Button delbtn = findViewById(R.id.delete);
+        delbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deleteRecord();
+                viewAllToTextView();
             }
         });
 
@@ -140,5 +181,57 @@ public class SecondActivity extends AppCompatActivity implements OnMapReadyCallb
 
         // move the camera
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15));
+    }
+
+    //제거 버튼 확인용(작업 중 제거 가능)
+    private void deleteRecord() {
+        EditText _id = (EditText)findViewById(R.id.testid);
+        mDbHelper.deleteUserBySQL(_id.getText().toString());
+    }
+
+    private void insertRecord() {
+        EditText title = (EditText)findViewById(R.id.today);
+        EditText loc = (EditText)findViewById(R.id.location);
+        EditText memo = (EditText)findViewById(R.id.memo);
+        TimePicker timePicker = (TimePicker) findViewById(R.id.timepicker1);
+        TimePicker timePicker2 = (TimePicker) findViewById(R.id.timepicker2);
+        String stime, etime;
+        final int hour, minute, ehour, eminute;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            hour = timePicker.getHour();
+            minute = timePicker.getMinute();
+        } else {
+            hour = timePicker.getCurrentHour();
+            minute = timePicker.getCurrentMinute();
+        }
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            ehour = timePicker2.getHour();
+            eminute = timePicker.getMinute();
+        } else {
+            ehour = timePicker2.getCurrentHour();
+            eminute = timePicker.getCurrentMinute();
+        }
+        stime = String.valueOf(hour)+"시"+String.valueOf(minute)+"분";
+        etime = String.valueOf(ehour)+"시"+String.valueOf(eminute)+"분";
+
+        mDbHelper.insertUserBySQL(title.getText().toString(),stime,etime,loc.getText().toString(),memo.getText().toString());
+    }
+    //데이터 베이스 확인용 (작업 중 제거 가능)
+    private void viewAllToTextView() {
+        TextView result = (TextView)findViewById(R.id.viewid);
+
+        Cursor cursor = mDbHelper.getAllUsersBySQL();
+
+        StringBuffer buffer = new StringBuffer();
+        while (cursor.moveToNext()) {
+            buffer.append(cursor.getInt(0)+" \t");
+            buffer.append(cursor.getString(1)+" \t");
+            buffer.append(cursor.getString(2)+" \t");
+            buffer.append(cursor.getString(3)+" \t");
+            buffer.append(cursor.getString(4)+" \t");
+            buffer.append(cursor.getString(5)+"\n");
+        }
+        result.setText(buffer);
     }
 }
